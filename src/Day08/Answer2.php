@@ -10,11 +10,11 @@ use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
-final class Answer1 extends Command
+final class Answer2 extends Command
 {
-    protected static $defaultName = 'day08:1';
+    protected static $defaultName = 'day08:2';
 
-    protected static $defaultDescription = 'Day 8 - Answer 1';
+    protected static $defaultDescription = 'Day 8 - Answer 2';
 
     public function __construct(
         private readonly FileLocator $dataFileLocator,
@@ -29,19 +29,21 @@ final class Answer1 extends Command
             ->all()
         ;
 
-        $visible = count($grid) * 4 - 4;
+        $maxScore = 1;
 
         for ($y = 1; $y < count($grid) - 1; ++$y) {
             for ($x = 1; $x < count($grid) - 1; ++$x) {
-                if ($this->isTreeVisible($this->getTreeLines($grid, $x, $y), (int) $grid[$y][$x])) {
-                    ++$visible;
+                $score = $this->getTreeScore($this->getTreeLines($grid, $x, $y), (int) $grid[$y][$x]);
+
+                if ($score > $maxScore) {
+                    $maxScore = $score;
                 }
             }
         }
 
         $output->writeln(sprintf(
-            'The are <options=bold,underscore>%d</> trees visible',
-            $visible,
+            'The highest scenic score possible is <options=bold,underscore>%d</>',
+            $maxScore,
         ));
 
         return Command::SUCCESS;
@@ -77,16 +79,30 @@ final class Answer1 extends Command
             }
         }
 
+        $up = array_reverse($up);
+        $left = array_reverse($left);
+
         return compact('up', 'down', 'left', 'right');
     }
 
-    private function isTreeVisible(array $lines, int $tree): bool
+    private function getTreeScore(array $lines, int $tree): int
     {
         return
-            $tree > max($lines['up']) ||
-            $tree > max($lines['down']) ||
-            $tree > max($lines['left']) ||
-            $tree > max($lines['right'])
+            $this->getTreeLineScore($lines['up'], $tree)
+            * $this->getTreeLineScore($lines['down'], $tree)
+            * $this->getTreeLineScore($lines['left'], $tree)
+            * $this->getTreeLineScore($lines['right'], $tree)
         ;
+    }
+
+    private function getTreeLineScore(array $line, int $tree): int
+    {
+        foreach ($line as $key => $size) {
+            if ($size >= $tree) {
+                return $key + 1;
+            }
+        }
+
+        return count($line);
     }
 }
