@@ -27,19 +27,15 @@ final class Answer2 extends Command
         $puzzleInput = $this->inputLoader->load('day06/input.txt');
         $puzzleInput = Collection::fromString($puzzleInput->first());
 
-        $accumulator = [];
-
-        foreach ($puzzleInput as $key => $letter) {
-            $accumulator[] = $letter;
-
-            if (count(array_unique(array_slice($accumulator, -14))) === 14) {
-                break;
-            }
-        }
+        $markerDetectedAt = $puzzleInput
+            ->window(14 - 1)
+            ->until(static fn (array $item): bool => count(array_unique($item)) === 14)
+            ->count()
+        ;
 
         $output->writeln(sprintf(
             '<options=bold,underscore>%d</> characters need to be processed before the first start-of-packet marker is detected',
-            $key + 1,
+            $markerDetectedAt,
         ));
 
         return Command::SUCCESS;
