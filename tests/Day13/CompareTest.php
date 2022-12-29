@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Day13;
+namespace AdventOfCode\Tests\Day13;
 
 use AdventOfCode\Day13\Compare;
 use PHPUnit\Framework\TestCase;

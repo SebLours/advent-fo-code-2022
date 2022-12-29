@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Day03;
+namespace AdventOfCode\Tests\Day03;
 
 use AdventOfCode\Day03\LetterPriorityResolver;
 use PHPUnit\Framework\TestCase;
