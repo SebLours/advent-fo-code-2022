@@ -8,7 +8,7 @@ use PHPUnit\Framework\TestCase;
 use Symfony\Component\Console\Application;
 use Symfony\Component\Console\Tester\ApplicationTester;
 
-class ApplicationTest extends TestCase
+abstract class ApplicationTest extends TestCase
 {
     protected ApplicationTester $applicationTester;
 

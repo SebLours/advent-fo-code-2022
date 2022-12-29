@@ -1,6 +1,8 @@
 {
     "name": "adventofcode/2022",
+    "description": "Advent of code 2022 (PHP)",
     "type": "project",
+    "license": "Apache-2.0",
     "require": {
         "php": "^8.1",
         "loophp/collection": "^7.0",
