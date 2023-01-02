@@ -17,4 +17,14 @@ final class AnswerTest extends ApplicationTest
             trim($this->applicationTester->getDisplay())
         );
     }
+
+    public function test_answer_2(): void
+    {
+        $this->applicationTester->run(['command' => 'day15:2']);
+
+        $this->assertSame(
+            'The tuning frequency is 11600823139120',
+            trim($this->applicationTester->getDisplay())
+        );
+    }
 }
